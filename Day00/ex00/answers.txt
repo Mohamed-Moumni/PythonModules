@@ -1,0 +1,9 @@
+pip list
+
+python -m pip show numpy
+
+pip uninstall numpy
+
+conda install numpy --force-reinstall
+
+python -m pip freeze > requirements.txt
