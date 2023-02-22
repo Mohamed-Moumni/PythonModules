@@ -1,9 +1,10 @@
-# import operator
+from typing import List
 
 class Vector:
     """class to represent a vector in mathematics format"""
 
     def __init__(self, Values):
+
         if isinstance(Values, int):
             iterable = list()
             iterable.append(list(range(Values)))
@@ -22,21 +23,47 @@ class Vector:
                     numbers.append(temp)
                 self.values = numbers
                 self.shape = ((Values[1] - Values[0]), 1)
+        elif isinstance(Values, list):
+            ret = self.is_vector(Values)
+            if ret == -1:
+                print("That is not a representation of vector")
+                return
+            elif ret == 1:
+                self.shape = (1, len(Values[0]))
+                self.values = Values
+            else:
+                self.shape = (len(Values), 1)
+                self.values = Values
         else:
             print("you can't construct an object from your input")
             return
 
-    def T(self):
-        if self.shape[0] == 1:
-            trans = Vector([], (self.shape[1], self.shape[0]))
-            for i in range(self.shape[1]):
-                trans.values.append([self.values[i]])
-            return trans
+    def is_vector(self, Values) -> int:
+        """This function return true if the given list is a vector"""
+        if len(Values) == 1:
+            if all([isinstance(item, float) for item in Values[0]]):
+                return 1
+            return -1
         else:
-            trans = Vector([],(self.shape[1], self.shape[0]))
+            if all([isinstance(item,list) and len(item) == 1 and isinstance(item[0], float) for item in Values]):
+                return 2
+            return -1
+
+    def T(self):
+        """This function return the Transpoe of vector"""
+        trans = []
+        if self.shape[0] == 1:
+            for i in range(self.shape[1]):
+                trans.append([self.values[0][i]])
+            Trans_vector = Vector(trans)
+            Trans_vector.shape = (self.shape[1], self.shape[0])
+            return Trans_vector
+        else:
             for i in range(self.shape[0]):
-                trans.values.append(self.values[i][0])
-            return trans
+                trans.append(self.values[i][0])
+            Trans_vector = Vector(trans)
+            Trans_vector.shape = (self.shape[1], self.shape[0])
+            return Trans_vector
 
     def dot(self, vect):
         if not isinstance(vect, Vector):
@@ -51,48 +78,16 @@ class Vector:
         return product
 
     def __add__(self, other):
-        if self.shape != other.shape:
-            print("You can't do an addition operation on two vector that have different dimension")
+        if isinstance(other, Vector):
+            if self.shape != other.shape:
+                print("You can't do an addition operation on two vector that have different dimension")
+            else:
+                addition = []
+                if self.shape[0] == 1:
+                    for i in range(self.shape[1]):
+                        addition.append(self.values[0][i] + other.values[0][i])
+                
+                return Vector([addition])
         else:
-            addition = Vector(0)
-            for i in range(len(self.values)):
-                addition.values[i] = self.values[i] + other.values[i]
-            return addition
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def isVector(self, Values) -> bool:
-    #     for elem in Values:
-    #         if not self.is_list(elem):
-    #             return (False)
-    #         else:
-    #             for elem2 in elem:
-    #                 if not self.is_list(elem2):
-    #                     return (False)
-    #     return (True)
-
-# print(a.shape)
-    # def is_list(self,values) -> bool:
-    #     for elem in values:
-    #         if isinstance(elem, list):
-    #             return (False)
-    #     return (True)
-
-    # def get_shape(self,values:List[List[float]]) -> Tuple[int, int]:
-    #     if isinstance(values[0], list):
-    #         return (len(values), 1)
-    #     return (1, len(values))
-
+            print("Invalid Represenation of vector")
+            

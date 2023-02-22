@@ -1,9 +1,9 @@
 from vector import Vector
 
-a = Vector(5)
+v2 = Vector([[1.0, 2.0, 3.0, 4.0]])
 
-b = Vector(5)
+v3 = Vector([[2.0, 2.0, 2.0, 2.0]])
 
-c = a + b
+v1 = v2 + v3
 
-print(c.values)
+print(v1.values)
