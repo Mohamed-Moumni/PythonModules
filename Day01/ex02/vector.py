@@ -6,22 +6,20 @@ class Vector:
     def __init__(self, Values):
 
         if isinstance(Values, int):
-            iterable = list()
-            iterable.append(list(range(Values)))
             self.shape = (Values, 1)
-            self.values = iterable
+            self.values = list()
+            self.values.append(list(range(Values)))
         elif isinstance(Values, tuple):
             if len(Values) > 2 or Values[0] > Values[1]:
                 print("Construct Your object with tuple of two integer (a,b) with a < b")
                 return
             else:
                 Values_ = list(range(Values[0],Values[1]))
-                numbers = []
+                self.values = list()
                 for i in Values_:
                     temp = []
                     temp.append(i)
-                    numbers.append(temp)
-                self.values = numbers
+                    self.values.append(temp)
                 self.shape = ((Values[1] - Values[0]), 1)
         elif isinstance(Values, list):
             ret = self.is_vector(Values)
@@ -81,13 +79,125 @@ class Vector:
         if isinstance(other, Vector):
             if self.shape != other.shape:
                 print("You can't do an addition operation on two vector that have different dimension")
+                return
             else:
                 addition = []
                 if self.shape[0] == 1:
                     for i in range(self.shape[1]):
                         addition.append(self.values[0][i] + other.values[0][i])
-                
-                return Vector([addition])
+                    return Vector([addition])
+                else:
+                    for i in range(self.shape[0]):
+                        addition.append([self.values[i][0] + other.values[i][0]])
+                    return Vector(addition)
         else:
             print("Invalid Represenation of vector")
-            
+    
+    def __radd__(self, other):
+        if isinstance(other, Vector):
+            if self.shape != other.shape:
+                print("You can't do an addition operation on two vector that have different dimension")
+                return
+            else:
+                addition = []
+                if self.shape[0] == 1:
+                    for i in range(self.shape[1]):
+                        addition.append(self.values[0][i] + other.values[0][i])
+                    return Vector([addition])
+                else:
+                    for i in range(self.shape[0]):
+                        addition.append([self.values[i][0] + other.values[i][0]])
+                    return Vector(addition)
+        else:
+            print("Invalid Represenation of vector")
+    
+    def __sub__(self, other):
+        """this class method substruct two object of Vector of the same shape return Error"""
+    
+        if isinstance(other, Vector):
+            if self.shape != other.shape:
+                print("You can't do an addition operation on two vector that have different dimension")
+                return
+            else:
+                substruction = []
+                if self.shape[0] == 1:
+                    for i in range(self.shape[1]):
+                        substruction.append(other.values[0][i] - self.values[0][i])
+                    return Vector([substruction])
+                else:
+                    for i in range(self.shape[0]):
+                        substruction.append([other.values[i][0]] - self.values[i][0])
+                    return Vector(substruction)
+        else:
+            print("Invalid Represenation of vector")
+    
+    def __rsub__(self, other):
+        """this class method substruct two object of Vector of the same shape return Error"""
+    
+        if isinstance(other, Vector):
+            if self.shape != other.shape:
+                print("You can't do an addition operation on two vector that have different dimension")
+                return
+            else:
+                substruction = []
+                if self.shape[0] == 1:
+                    for i in range(self.shape[1]):
+                        substruction.append(other.values[0][i] - self.values[0][i])
+                    return Vector([substruction])
+                else:
+                    for i in range(self.shape[0]):
+                        substruction.append([other.values[i][0]] - self.values[i][0])
+                    return Vector(substruction)
+        else:
+            print("Invalid Represenation of vector")
+    
+    def __truediv__(self, scalar):
+        if not isinstance(scalar, float):
+            print("division is only by scalar")
+            return
+        if scalar == 0:
+            print("ZerodivisionError: division by zero.")
+        else:
+            if self.shape[0] == 1:
+                for i in range(self.shape[1]):
+                    self.values[0][i] /= scalar
+            else:
+                for i in range(self.shape[0]):
+                    self.values[i][0] /= scalar
+
+    def __rtruediv__(self, scalar):
+        print("Division of a scalar by a Vector is not defined here.")
+        return 
+
+    
+    def __mul__(self, scalar):
+        """"""
+
+        if not isinstance(scalar, float):
+            print("multiplication is only by scalar")
+        else:
+            if self.shape[0] == 1:
+                for i in range(self.shape[1]):
+                    self.values[0][i] *= scalar
+            else:
+                for i in range(self.shape[0]):
+                    self.values[i][0] *= scalar
+
+    def __rmul__(self, scalar) -> None:
+        """"""
+
+        if not isinstance(scalar, float):
+            print("multiplication is only by scalar")
+        else:
+            if self.shape[0] == 1:
+                for i in range(self.shape[1]):
+                    self.values[0][i] *= scalar
+            else:
+                for i in range(self.shape[0]):
+                    self.values[i][0] *= scalar
+    
+    def __str__(self) -> str:
+        return f"{self.values}"
+
+    def __repr__(self) -> str:
+        return f"{self.values}"
