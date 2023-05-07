@@ -1,5 +1,12 @@
-import typing
+from book import Book
+from recipe import Recipe
 
-class Recipe:
-    def __init__(self, name: str, cooking_lvl: int, cooking_time: int, ingredients: list[str], description: str, recipe_type: str) -> None:
-        
+book = Book("chomicha")
+
+recipe = Recipe("tangia", 2, 40, ["la7em", "zaafrane", "9arfa"], "had l9es ghir dyal s7ab marrakech", "lunch")
+
+book.add_recipe(recipe)
+
+book.get_recipe_by_name("tangia")
+
+book.get_recipes_by_types("lunch")
