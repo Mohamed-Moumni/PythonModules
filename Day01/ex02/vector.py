@@ -1,9 +1,4 @@
 import typing
-# Todo
-#1. Create constructors Good
-#2. Create dot and T member function
-#3. Operations in vectors
-#4. Create magic/special methods
 
 class Vector:
     def __init__(self, vect) -> None:
@@ -60,3 +55,115 @@ class Vector:
                 for i in range(size):
                     newVect.append([self.values[0][i]])
             self.values = newVect
+    
+    def __add__(self, other):
+        if not isinstance(self, Vector) or not isinstance(other, Vector):
+            print("Error: The value is not a vector")
+            return None
+        elif self.shape[0] != other.shape[0] or self.shape[1] != other.shape[1]:
+            print("Error: The shape of two vectors is different")
+            return None
+        else:
+            sum = []
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    sum.append([self.values[i][0] + other.values[i][0]])
+            else:
+                for i in range(self.shape[1]):
+                    sum.append(self.values[0][i] + other.values[0][i])
+            return Vector([sum])
+    
+    def __radd__(self, other):
+        if not isinstance(self, Vector) or not isinstance(other, Vector):
+            print("Error: The value is not a vector")
+            return None
+        elif self.shape[0] != other.shape[0] or self.shape[1] != other.shape[1]:
+            print("Error: The shape of two vectors is different")
+            return None
+        else:
+            sum = []
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    sum.append([self.values[i][0] + other.values[i][0]])
+            else:
+                for i in range(self.shape[1]):
+                    sum.append(self.values[0][i] + other.values[0][i])
+            return Vector([sum])
+    
+    def __sub__(self, other):
+        if not isinstance(self, Vector) or not isinstance(other, Vector):
+            print("Error: The value is not a vector")
+            return None
+        elif self.shape[0] != other.shape[0] or self.shape[1] != other.shape[1]:
+            print("Error: The shape of two vectors is different")
+            return None
+        else:
+            sub = []
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    sub.append([self.values[i][0] - other.values[i][0]])
+            else:
+                for i in range(self.shape[1]):
+                    sub.append(self.values[0][i] - other.values[0][i])
+            return Vector([sub])
+    
+    def __rsub__(self, other):
+        if not isinstance(self, Vector) or not isinstance(other, Vector):
+            print("Error: The value is not a vector")
+            return None
+        elif self.shape[0] != other.shape[0] or self.shape[1] != other.shape[1]:
+            print("Error: The shape of two vectors is different")
+            return None
+        else:
+            sub = []
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    sub.append([self.values[i][0] - other.values[i][0]])
+            else:
+                for i in range(self.shape[1]):
+                    sub.append(self.values[0][i] - other.values[0][i])
+            return Vector([sub])
+
+    def __truediv__(self, divider) -> None:
+        if not isinstance(self, Vector) or not isinstance(divider, float):
+            print("Error: The divider value is not a float")
+        elif divider == 0.0:
+            raise ZeroDivisionError("division by zero.")
+        else:
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    self.values[i][0] /= divider
+            else:
+                for i in range(self.shape[1]):
+                    self.values[0][i] /= divider
+
+    def __rtruediv__(self, divider) -> None:
+        raise NotImplementedError("Division of a scalar by a Vector is not defined here.")
+    
+    def __mul__(self, factor) -> None:
+        if not isinstance(self, Vector) or not isinstance(factor, float):
+            print("Error: The factor value is not a float")
+        else:
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    self.values[i][0] *= factor
+            else:
+                for i in range(self.shape[1]):
+                    self.values[0][i] *= factor
+
+    def __rmul__(self, factor) -> None:
+        if not isinstance(self, Vector) or not isinstance(factor, float):
+            print("Error: The factor value is not a float")
+        else:
+            if self.shape[0] != 1:
+                for i in range(self.shape[0]):
+                    self.values[i][0] *= factor
+            else:
+                for i in range(self.shape[1]):
+                    self.values[0][i] *= factor
+
+    def __str__(self) -> str:
+        return str(self.values)
+
+    def __repr__(self) -> str:
+        return str(self.values)
