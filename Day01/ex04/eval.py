@@ -23,3 +23,5 @@ class Evaluator:
         for item in enumerate(words):
             sum += (len(item[1]) * coefs[item[0]])
         return sum
+
+
